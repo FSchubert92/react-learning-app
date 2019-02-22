@@ -1,24 +1,47 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 
-export default class Filter extends Component {
-  onClick = event => {
-    this.props.onClick(event.target.value)
+const Grid = styled.section`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 2px;
+`
+const Button = styled.div`
+  display: flex;
+  cursor: pointer;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: crimson;
+  text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  &:hover {
+    background-color: grey;
   }
-
+  &:active {
+    background: cyan;
+    color: black;
+  }
+`
+export default class Filter extends Component {
   render() {
     const { items, active, onClick } = this.props
 
-    return items.map(item => {
-      return (
-        <button
-          style={item === active ? { background: 'hotpink' } : {}}
-          value={item}
-          onClick={() => onClick(item)}
-        >
-          {item}
-        </button>
-      )
-    })
+    return (
+      <Grid>
+        {items.map(item => (
+          <Button
+            style={item === active ? { background: 'hotpink' } : {}}
+            value={item}
+            onClick={() => onClick(item)}
+          >
+            {item}
+          </Button>
+        ))}
+      </Grid>
+    )
   }
 }
 

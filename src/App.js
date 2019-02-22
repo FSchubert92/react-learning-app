@@ -13,6 +13,7 @@ const BodyGrid = styled.div`
   display: grid;
   height: 100vh;
   overflow: hidden;
+  margin: 0 auto;
   grid-template-rows: auto 48px;
   grid-gap: 2px;
 `
@@ -41,7 +42,7 @@ const Navbar = styled.nav`
     }
   }
   .navItem--active {
-    background: grey;
+    background: deeppink;
   }
 `
 

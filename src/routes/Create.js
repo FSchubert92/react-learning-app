@@ -20,15 +20,10 @@ export default class Create extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = event => {
+  onSubmit = event => {
     event.preventDefault()
-    const tagList = this.state.tags.split(',').map(tag => tag.trim())
-    postNewCard({
-      ...this.state,
-      tags: tagList,
-    }).then(res => {
-      console.log(res.data)
-    })
+    const tags = this.state.tags.split(',').map(tag => tag.trim())
+    this.props.onSubmit({ ...this.state, tags })
   }
 
   render() {

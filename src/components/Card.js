@@ -1,8 +1,41 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+const Bookmark = styled.div`
+  position: absolute;
+  right: 12px;
+  top: -6px;
+  width: 20px;
+  height: 6px;
+  background: ${p => (p.active ? 'crimson' : 'black')};
+  transition: all 0.4s ease;
+  &:after {
+    transition: all 0.4s ease;
+    position: absolute;
+    display: block;
+    top: 100%;
+    content: '';
+    border: 10px solid ${p => (p.active ? 'crimson' : 'black')};
+    border-bottom-color: transparent;
+  }
+`
+const DeleteButton = styled.div`
+  position: absolute;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: crimson;
+  right: 10px;
+  bottom: 7px;
+  color: white;
+  border-radius: 12%;
+`
 const StyledCard = styled.section`
-  padding: 18px;
+  padding-left: 15px;
+  position: relative;
   background: #eee;
   border: 2px solid #ccc;
   border-radius: 4px;
@@ -30,12 +63,21 @@ export default class Card extends Component {
   }
 
   render() {
-    const { title, content, tags } = this.props
+    const {
+      title,
+      content,
+      tags,
+      bookmarked,
+      onBookmark,
+      onDelete,
+    } = this.props
     return (
       <StyledCard>
+        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
         <h3> {title} </h3>
         <p>{content}</p>
         {tags && <TagList>{tags.map(this.renderTag)}</TagList>}
+        <DeleteButton onClick={onDelete}>X</DeleteButton>
       </StyledCard>
     )
   }

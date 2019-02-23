@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   display: grid;
+  padding: 10px;
+  font-size: 1.2em;
   grid-template-rows: auto auto;
   grid-gap: 2px;
   justify-content: center;

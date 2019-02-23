@@ -9,6 +9,16 @@ export function postNewCard(card) {
   return axios.post(cardsPath, card)
 }
 
+export function toggleCardBookmark(card) {
+  return axios.patch(`${cardsPath}/${card._id}`, {
+    ...card,
+    bookmarked: !card.bookmarked,
+  })
+}
+export function deleteCardFromServer(card) {
+  return axios.delete(`${cardsPath}/${card.id}`)
+}
+
 export function getCardsFromStorage() {
   return getFromStorage('cards') || []
 }

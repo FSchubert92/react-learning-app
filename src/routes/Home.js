@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Header from '../components/Header'
-import {
-  getAllCards,
-  getCardsFromStorage,
-  saveCardsToStorage,
-} from '../services'
 import Card from '../components/Card'
 import styled from 'styled-components'
+
+const PageGrid = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+`
 
 const CardContainer = styled.section`
   display: grid;
@@ -15,31 +16,23 @@ const CardContainer = styled.section`
   overflow: scroll;
 `
 export default class Home extends Component {
-  state = {
-    cards: getCardsFromStorage(),
-  }
-  componentDidMount() {
-    getAllCards().then(res => {
-      this.setState({
-        cards: res.data,
-      })
-    })
-  }
-
-  componentDidUpdate() {
-    saveCardsToStorage(this.state.cards)
-  }
-
   render() {
+    const { onBookmark, onDelete } = this.props
+
     return (
-      <section>
+      <PageGrid>
         <Header text="" />
         <CardContainer>
-          {this.state.cards.map(card => (
-            <Card {...card} key={card._id} />
+          {this.props.cards.map(card => (
+            <Card
+              {...card}
+              key={card._id}
+              onBookmark={() => onBookmark(card)}
+              onDelete={() => onDelete(card)}
+            />
           ))}
         </CardContainer>
-      </section>
+      </PageGrid>
     )
   }
 }

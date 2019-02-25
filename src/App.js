@@ -74,6 +74,7 @@ class App extends Component {
       })
     })
   }
+
   toggleBookmark = card => {
     toggleCardBookmark(card)
       .then(res => {

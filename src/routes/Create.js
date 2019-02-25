@@ -24,12 +24,13 @@ export default class Create extends Component {
     event.preventDefault()
     const tags = this.state.tags.split(',').map(tag => tag.trim())
     this.props.onSubmit({ ...this.state, tags })
+    this.setState({ title: '', content: '', tags: '' })
   }
 
   render() {
     return (
       <section>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <StyledForm onSubmit={this.onSubmit}>
           <input onChange={this.onInputChange} type="text" name="title" />
           <textarea
             onChange={this.onInputChange}

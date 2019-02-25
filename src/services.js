@@ -16,7 +16,7 @@ export function toggleCardBookmark(card) {
   })
 }
 export function deleteCardFromServer(card) {
-  return axios.delete(`${cardsPath}/${card.id}`)
+  return axios.delete(`${cardsPath}/${card._id}`)
 }
 
 export function getCardsFromStorage() {

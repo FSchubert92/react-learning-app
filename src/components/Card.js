@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Bookmark = styled.div`
   position: absolute;
@@ -58,6 +59,17 @@ const Tag = styled.li`
 `
 
 export default class Card extends Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    bookmarked: PropTypes.bool,
+    onBookmark: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+  }
+
+  static defaultProps ={
+    
+  }
   renderTag(text, i) {
     return <Tag key={i}>{text}</Tag>
   }

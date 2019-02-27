@@ -27,6 +27,44 @@
           "value": "Card"
         }
       ]
+    },
+    "src/components/Filter.mdx": {
+      "name": "Filterbuttons",
+      "menu": "Components",
+      "id": "63d665d2526fb98c4a6a3ad2324f5c91",
+      "filepath": "src/components/Filter.mdx",
+      "link": null,
+      "slug": "src-components-filter",
+      "route": "/src-components-filter",
+      "order": 0,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "filterbuttons",
+          "value": "Filterbuttons"
+        },
+        {
+          "depth": 2,
+          "slug": "one-button-is-clicked-and-active",
+          "value": "One button is clicked and active"
+        },
+        {
+          "depth": 2,
+          "slug": "no-button-clicked",
+          "value": "No button clicked"
+        }
+      ]
+    },
+    "src/components/Header.mdx": {
+      "id": "a3346815118285d295694b73d394efa6",
+      "filepath": "src/components/Header.mdx",
+      "link": null,
+      "slug": "src-components-header",
+      "route": "/src-components-header",
+      "name": "Header",
+      "order": 0,
+      "menu": null,
+      "headings": []
     }
   }
 }

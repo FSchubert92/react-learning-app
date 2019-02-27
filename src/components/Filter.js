@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Grid = styled.section`
   display: grid;
@@ -26,6 +27,11 @@ const Button = styled.div`
   }
 `
 export default class Filter extends Component {
+
+static propTypes ={ items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  value: PropTypes.string,
+  onClick: PropTypes.func.isRequired
+}
   render() {
     const { items, active, onClick } = this.props
 

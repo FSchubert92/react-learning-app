@@ -68,7 +68,7 @@ export default class Card extends Component {
   }
 
   static defaultProps ={
-    
+    bookmarked: false,
   }
   renderTag(text, i) {
     return <Tag key={i}>{text}</Tag>

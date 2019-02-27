@@ -1,0 +1,23 @@
+---
+name: Filterbuttons
+menu: Components
+---
+
+# Filterbuttons
+## One button is clicked and active
+
+import Filter from './Filter'
+import { Playground, PropsTable } from 'docz'
+
+<PropsTable of={Filter} />
+
+<Playground>
+  <Filter items={['this is the active tag', 'two', 'three', 'four']}
+  onClick={() => {}} active={'this is the active tag'} />
+</Playground>
+
+## No button clicked
+<Playground>
+  <Filter items={['one', 'two', 'three', 'four']}
+  onClick={() => {}} />
+</Playground>

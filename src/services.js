@@ -11,7 +11,6 @@ export function postNewCard(card) {
 
 export function toggleCardBookmark(card) {
   return axios.patch(`${cardsPath}/${card._id}`, {
-    ...card,
     bookmarked: !card.bookmarked,
   })
 }

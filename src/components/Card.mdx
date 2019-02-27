@@ -11,5 +11,9 @@ import { Playground, PropsTable } from 'docz'
 <PropsTable of={Card} />
 
 <Playground>
-  <Card title="My Card's title" content="My Card has some Content here" tags={['one', 'two', 'three']} onBookmark={() =>{}} onDelete={()=> {}} />
+  <Card title="My Card's title" content="My Card has some Content here" tags={['one', 'two', 'three']} />
+</Playground>
+
+<Playground>
+  <Card title="No Tags" content="Works without tags as well. But it isn't either nice nor useful so don't do it" />
 </Playground>

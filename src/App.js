@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import Home from './routes/Home'
-import Create from './routes/Create'
+import Create from './create/Create'
 import Bookmarks from './routes/Bookmarks'
-import Settings from './routes/Settings'
+import Settings from './settings/Settings'
 import GlobalStyles from './GlobalStyles'
 import {
   getCardsFromStorage,

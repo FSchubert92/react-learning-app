@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Filter from './Filter'
+import Filter from '../common/Filter'
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`

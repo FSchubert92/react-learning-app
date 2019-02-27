@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Bookmark = styled.div`
   position: absolute;
@@ -57,40 +57,36 @@ const Tag = styled.li`
   color: white;
   font-size: 0.8em;
 `
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  bookmarked: PropTypes.bool,
+  onBookmark: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+}
+Card.defaultProps = {
+  bookmarked: false,
+}
 
-export default class Card extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    bookmarked: PropTypes.bool,
-    onBookmark: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-  }
-
-  static defaultProps ={
-    bookmarked: false,
-  }
-  renderTag(text, i) {
+export default function Card({
+  title,
+  content,
+  tags,
+  bookmarked,
+  onBookmark,
+  onDelete,
+}) {
+  function renderTag(text, i) {
     return <Tag key={i}>{text}</Tag>
   }
 
-  render() {
-    const {
-      title,
-      content,
-      tags,
-      bookmarked,
-      onBookmark,
-      onDelete,
-    } = this.props
-    return (
-      <StyledCard>
-        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
-        <h3> {title} </h3>
-        <p>{content}</p>
-        {tags && <TagList>{tags.map(this.renderTag)}</TagList>}
-        <DeleteButton onClick={onDelete}>X</DeleteButton>
-      </StyledCard>
-    )
-  }
+  return (
+    <StyledCard>
+      {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
+      <h3> {title} </h3>
+      <p>{content}</p>
+      {tags && <TagList>{tags.map(renderTag)}</TagList>}
+      <DeleteButton onClick={onDelete}>X</DeleteButton>
+    </StyledCard>
+  )
 }

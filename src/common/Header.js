@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Filter from '../common/Filter'
 import styled from 'styled-components'
 
@@ -11,27 +11,14 @@ const StyledHeader = styled.header`
   justify-content: center;
 `
 
-export default class Header extends Component {
-  state = {
-    items: ['html', 'css', 'js', 'shell'],
-    activeTag: 'html',
-  }
-  setFilter = activeTag => {
-    this.setState({
-      activeTag: activeTag,
-    })
-  }
+export default function Header() {
+  const tags = ['html', 'css', 'js', 'shell']
+  const [activeTag, setActiveTag] = useState('html')
 
-  render() {
-    return (
-      <div>
-        <StyledHeader>{this.state.activeTag}</StyledHeader>
-        <Filter
-          items={this.state.items}
-          active={this.state.activeTag}
-          onClick={this.setFilter}
-        />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <StyledHeader>{activeTag}</StyledHeader>
+      <Filter items={tags} active={activeTag} onClick={setActiveTag} />
+    </div>
+  )
 }

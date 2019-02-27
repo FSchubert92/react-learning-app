@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import Home from './routes/Home'
-import Create from './create/Create'
-import Bookmarks from './routes/Bookmarks'
-import Settings from './settings/Settings'
+import Cards from '../cards/Cards'
+import Create from '../create/Create'
+import Settings from '../settings/Settings'
 import GlobalStyles from './GlobalStyles'
 import {
   getCardsFromStorage,
@@ -13,7 +12,7 @@ import {
   postNewCard,
   toggleCardBookmark,
   deleteCardFromServer,
-} from './services'
+} from '../services'
 
 const BodyGrid = styled.div`
   display: grid;
@@ -113,7 +112,7 @@ class App extends Component {
             exact
             path="/"
             render={() => (
-              <Home
+              <Cards
                 cards={cards}
                 onBookmark={this.toggleBookmark}
                 onDelete={this.deleteCard}
@@ -124,7 +123,15 @@ class App extends Component {
             path="/create"
             render={() => <Create onSubmit={this.createCard} />}
           />
-          <Route path="/bookmarks" component={Bookmarks} />
+          <Route
+            path="/bookmarks"
+            render={() => (
+              <Cards
+                cards={cards.filter(card => card.bookmarked)}
+                onBookmark={this.toggleBookmark}
+              />
+            )}
+          />
           <Route path="/settings" component={Settings} />
           <Navbar>
             <NavLink

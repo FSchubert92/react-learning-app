@@ -16,9 +16,9 @@ export default function Header() {
   const [activeTag, setActiveTag] = useState('html')
 
   return (
-    <div>
+    <header>
       <StyledHeader>{activeTag}</StyledHeader>
       <Filter items={tags} active={activeTag} onClick={setActiveTag} />
-    </div>
+    </header>
   )
 }

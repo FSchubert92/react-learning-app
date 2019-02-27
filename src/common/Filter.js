@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 const Grid = styled.section`
   display: grid;
@@ -26,29 +25,19 @@ const Button = styled.div`
     color: black;
   }
 `
-export default class Filter extends Component {
 
-static propTypes ={ items: PropTypes.arrayOf(PropTypes.string).isRequired,
-  value: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+export default function Filter({ items, active, onClick }) {
+  return (
+    <Grid>
+      {items.map(item => (
+        <Button
+          style={item === active ? { background: 'hotpink' } : {}}
+          value={item}
+          onClick={() => onClick(item)}
+        >
+          {item}
+        </Button>
+      ))}
+    </Grid>
+  )
 }
-  render() {
-    const { items, active, onClick } = this.props
-
-    return (
-      <Grid>
-        {items.map(item => (
-          <Button
-            style={item === active ? { background: 'hotpink' } : {}}
-            value={item}
-            onClick={() => onClick(item)}
-          >
-            {item}
-          </Button>
-        ))}
-      </Grid>
-    )
-  }
-}
-
-// Todo Geschichte nachschauen, geht in die selbe Richtung. Mit .map über das Array der Items rübergehen und so zu rendern. Mit Turnery checken ob active und dann Klasse vergeben, onClick soll dann der Filter applied werden. Bei on Click wird in das active Obkejt der jeweilige Teil aufgenommen. Damit kann man dann auch das highlighting machen.^

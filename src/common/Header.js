@@ -11,14 +11,13 @@ const StyledHeader = styled.header`
   justify-content: center;
 `
 
-export default function Header() {
+export default function Header({ activeTag, onClick }) {
   const tags = ['html', 'css', 'js', 'shell']
-  const [activeTag, setActiveTag] = useState('html')
 
   return (
     <header>
       <StyledHeader>{activeTag}</StyledHeader>
-      <Filter items={tags} active={activeTag} onClick={setActiveTag} />
+      <Filter items={tags} active={activeTag} onClick={onClick} />
     </header>
   )
 }

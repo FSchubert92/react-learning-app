@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import Cards from '../cards/Cards'
+import Cards from '../cards/CardsPage'
 import Create from '../create/Create'
 import Settings from '../settings/Settings'
 import GlobalStyles from './GlobalStyles'
@@ -50,125 +50,109 @@ const Navbar = styled.nav`
     background: deeppink;
   }
 `
-class App extends Component {
-  state = {
-    cards: getCardsFromStorage(),
-  }
-  componentDidMount() {
+function App() {
+  const [cards, setCards] = useState(getCardsFromStorage())
+
+  useEffect(() => {
     getAllCards().then(res => {
-      this.setState({
-        cards: res.data,
-      })
+      setCards(res.data)
     })
-  }
+  }, [cards])
 
-  componentDidUpdate() {
-    saveCardsToStorage(this.state.cards)
-  }
+  useEffect(() => {
+    saveCardsToStorage(cards)
+  }, [cards])
 
-  createCard = data => {
+  function createCard(data) {
     postNewCard(data).then(res => {
-      this.setState({
-        cards: [...this.state.cards, res.data],
+      setCards({
+        cards: [...cards, res.data],
       })
     })
   }
 
-  toggleBookmark = card => {
+  function toggleBookmark(card) {
     toggleCardBookmark(card)
       .then(res => {
-        const { cards } = this.state
         const index = cards.indexOf(card)
-        this.setState({
-          cards: [
-            ...cards.slice(0, index),
-            { ...res.data },
-            ...cards.slice(index + 1),
-          ],
-        })
+        setCards([
+          ...cards.slice(0, index),
+          { ...res.data },
+          ...cards.slice(index + 1),
+        ])
       })
       .catch(err => console.log(err))
   }
 
-  deleteCard = card => {
+  function deleteCard(card) {
     deleteCardFromServer(card)
       .then(res => {
-        const { cards } = this.state
         const index = cards.indexOf(card)
-        this.setState({
-          cards: [...cards.slice(0, index), ...cards.slice(index + 1)],
-        })
+        setCards([...cards.slice(0, index), ...cards.slice(index + 1)])
       })
       .catch(err => console.log(err))
   }
 
-  render() {
-    const { cards } = this.state
-
-    return (
-      <Router>
-        <BodyGrid>
-          <Route
+  return (
+    <Router>
+      <BodyGrid>
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <Cards
+              cards={cards}
+              onBookmark={toggleBookmark}
+              onDelete={deleteCard}
+            />
+          )}
+        />
+        <Route path="/create" render={() => <Create onSubmit={createCard} />} />
+        <Route
+          path="/bookmarks"
+          render={() => (
+            <Cards
+              cards={cards.filter(card => card.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
+          )}
+        />
+        <Route path="/settings" component={Settings} />
+        <Navbar>
+          <NavLink
             exact
-            path="/"
-            render={() => (
-              <Cards
-                cards={cards}
-                onBookmark={this.toggleBookmark}
-                onDelete={this.deleteCard}
-              />
-            )}
-          />
-          <Route
-            path="/create"
-            render={() => <Create onSubmit={this.createCard} />}
-          />
-          <Route
-            path="/bookmarks"
-            render={() => (
-              <Cards
-                cards={cards.filter(card => card.bookmarked)}
-                onBookmark={this.toggleBookmark}
-              />
-            )}
-          />
-          <Route path="/settings" component={Settings} />
-          <Navbar>
-            <NavLink
-              exact
-              activeClassName="navItem--active"
-              className={'navItem'}
-              to="/"
-            >
-              Home
-            </NavLink>
-            <NavLink
-              activeClassName="navItem--active"
-              className={'navItem'}
-              to="/create"
-            >
-              Create
-            </NavLink>
-            <NavLink
-              activeClassName="navItem--active"
-              className={'navItem'}
-              to="/bookmarks"
-            >
-              Bookmarks
-            </NavLink>
-            <NavLink
-              activeClassName="navItem--active"
-              className={'navItem'}
-              to="/settings"
-            >
-              Settings
-            </NavLink>
-            <GlobalStyles />
-          </Navbar>
-        </BodyGrid>
-      </Router>
-    )
-  }
+            activeClassName="navItem--active"
+            className={'navItem'}
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            activeClassName="navItem--active"
+            className={'navItem'}
+            to="/create"
+          >
+            Create
+          </NavLink>
+          <NavLink
+            activeClassName="navItem--active"
+            className={'navItem'}
+            to="/bookmarks"
+          >
+            Bookmarks
+          </NavLink>
+          <NavLink
+            activeClassName="navItem--active"
+            className={'navItem'}
+            to="/settings"
+          >
+            Settings
+          </NavLink>
+          <GlobalStyles />
+        </Navbar>
+      </BodyGrid>
+    </Router>
+  )
 }
 
 export default App

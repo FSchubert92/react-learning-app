@@ -1,7 +1,7 @@
-import React from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
 import Card from './Card'
+import React, { useState } from 'react'
 
 const PageGrid = styled.div`
   display: grid;
@@ -15,10 +15,11 @@ const CardContainer = styled.section`
   padding: 20px;
   overflow: scroll;
 `
-export default function Home({ onBookmark, onDelete, cards }) {
+export default function Cards({ onBookmark, onDelete, cards }) {
+  const [activeTag, setActiveTag] = useState('html')
   return (
     <PageGrid>
-      <Header text="" />
+      <Header text="" activeTag={activeTag} onClick={setActiveTag} />
       <CardContainer>
         {cards.map(card => (
           <Card

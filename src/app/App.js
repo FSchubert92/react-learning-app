@@ -1,55 +1,47 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import Cards from '../cards/CardsPage'
-import Create from '../create/Create'
-import Settings from '../settings/Settings'
-import GlobalStyles from './GlobalStyles'
+import CardsPage from '../cards/CardsPage'
+import CreatePage from '../create/CreatePage'
 import {
-  getCardsFromStorage,
   getAllCards,
-  saveCardsToStorage,
+  getCardsFromStorage,
   postNewCard,
+  saveCardsToStorage,
   toggleCardBookmark,
-  deleteCardFromServer,
 } from '../services'
+import SettingsPage from '../settings/SettingsPage'
+import GlobalStyle from './GlobalStyle'
 
-const BodyGrid = styled.div`
+const Grid = styled.div`
   display: grid;
-  height: 100vh;
-  overflow: hidden;
-  margin: 0 auto;
   grid-template-rows: auto 48px;
-  grid-gap: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `
 
-const Navbar = styled.nav`
+const Nav = styled.nav`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 2px;
+`
 
-  .navItem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
+const StyledLink = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  color: white;
+  text-decoration: none;
+
+  &.active {
     background: hotpink;
-    text-transform: uppercase;
-    color: white;
-    text-decoration: none;
-
-    &:hover {
-      background-color: deeppink;
-    }
-    &:active {
-      background: cyan;
-      color: black;
-    }
-  }
-  .navItem--active {
-    background: deeppink;
   }
 `
+
 function App() {
   const [cards, setCards] = useState(getCardsFromStorage())
 
@@ -57,7 +49,7 @@ function App() {
     getAllCards().then(res => {
       setCards(res.data)
     })
-  }, [cards])
+  }, [])
 
   useEffect(() => {
     saveCardsToStorage(cards)
@@ -65,9 +57,7 @@ function App() {
 
   function createCard(data) {
     postNewCard(data).then(res => {
-      setCards({
-        cards: [...cards, res.data],
-      })
+      setCards([...cards, res.data])
     })
   }
 
@@ -84,73 +74,38 @@ function App() {
       .catch(err => console.log(err))
   }
 
-  function deleteCard(card) {
-    deleteCardFromServer(card)
-      .then(res => {
-        const index = cards.indexOf(card)
-        setCards([...cards.slice(0, index), ...cards.slice(index + 1)])
-      })
-      .catch(err => console.log(err))
-  }
-
   return (
     <Router>
-      <BodyGrid>
+      <Grid>
         <Route
           exact
           path="/"
-          render={() => (
-            <Cards
-              cards={cards}
-              onBookmark={toggleBookmark}
-              onDelete={deleteCard}
-            />
-          )}
+          render={() => <CardsPage cards={cards} onBookmark={toggleBookmark} />}
         />
-        <Route path="/create" render={() => <Create onSubmit={createCard} />} />
         <Route
           path="/bookmarks"
           render={() => (
-            <Cards
+            <CardsPage
               cards={cards.filter(card => card.bookmarked)}
               onBookmark={toggleBookmark}
             />
           )}
         />
-        <Route path="/settings" component={Settings} />
-        <Navbar>
-          <NavLink
-            exact
-            activeClassName="navItem--active"
-            className={'navItem'}
-            to="/"
-          >
+        <Route
+          path="/create"
+          render={() => <CreatePage onSubmit={createCard} />}
+        />
+        <Route path="/settings" component={SettingsPage} />
+        <Nav>
+          <StyledLink exact to="/">
             Home
-          </NavLink>
-          <NavLink
-            activeClassName="navItem--active"
-            className={'navItem'}
-            to="/create"
-          >
-            Create
-          </NavLink>
-          <NavLink
-            activeClassName="navItem--active"
-            className={'navItem'}
-            to="/bookmarks"
-          >
-            Bookmarks
-          </NavLink>
-          <NavLink
-            activeClassName="navItem--active"
-            className={'navItem'}
-            to="/settings"
-          >
-            Settings
-          </NavLink>
-          <GlobalStyles />
-        </Navbar>
-      </BodyGrid>
+          </StyledLink>
+          <StyledLink to="/bookmarks">Bookmarks</StyledLink>
+          <StyledLink to="/create">Create</StyledLink>
+          <StyledLink to="/settings">Settings</StyledLink>
+        </Nav>
+        <GlobalStyle />
+      </Grid>
     </Router>
   )
 }

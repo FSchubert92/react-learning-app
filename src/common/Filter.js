@@ -5,38 +5,36 @@ const Grid = styled.section`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 2px;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 `
-const Button = styled.div`
+
+const Link = styled.div`
   display: flex;
-  cursor: pointer;
-  padding: 10px;
+  scroll-snap-align: start;
+  white-space: nowrap;
+  cursor: default;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  background: crimson;
+  padding: 4px 12px;
+  flex: 1 1;
+  background: #eee;
+  color: ${p => (p.isActive ? 'hotpink' : '#333')};
   text-transform: uppercase;
-  color: white;
-  text-decoration: none;
-  &:hover {
-    background-color: grey;
-  }
-  &:active {
-    background: cyan;
-    color: black;
-  }
 `
 
 export default function Filter({ items, active, onClick }) {
   return (
     <Grid>
       {items.map(item => (
-        <Button
-          style={item === active ? { background: 'hotpink' } : {}}
-          value={item}
+        <Link
+          key={item}
+          isActive={item === active}
           onClick={() => onClick(item)}
         >
           {item}
-        </Button>
+        </Link>
       ))}
     </Grid>
   )

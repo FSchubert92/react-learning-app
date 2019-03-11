@@ -1,6 +1,7 @@
 import axios from 'axios'
+const IP = process.env.REACT_APP_BACKEND_IP
+const cardsPath = `http://${IP}:4000/cards`
 
-const cardsPath = 'http://localhost:4000/cards'
 export function getAllCards() {
   return axios.get(cardsPath)
 }
@@ -14,9 +15,6 @@ export function toggleCardBookmark(card) {
     bookmarked: !card.bookmarked,
   })
 }
-export function deleteCardFromServer(card) {
-  return axios.delete(`${cardsPath}/${card._id}`)
-}
 
 export function getCardsFromStorage() {
   return getFromStorage('cards') || []
@@ -26,6 +24,11 @@ export function saveCardsToStorage(cards) {
   saveToStorage('cards', cards)
 }
 
+export function saveToStorage(name, data) {
+  const dataString = JSON.stringify(data)
+  localStorage.setItem(name, dataString)
+}
+
 export function getFromStorage(name) {
   const dataString = localStorage.getItem(name)
   try {
@@ -33,8 +36,4 @@ export function getFromStorage(name) {
   } catch (error) {
     console.error(error.message)
   }
-}
-export function saveToStorage(name, data) {
-  const dataString = JSON.stringify(data)
-  localStorage.setItem(name, dataString)
 }

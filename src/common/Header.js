@@ -1,23 +1,22 @@
-import React, { useState } from 'react'
-import Filter from '../common/Filter'
+import React from 'react'
+import Filter from './Filter'
 import styled from 'styled-components'
+import Title from './Title'
 
 const StyledHeader = styled.header`
-  display: grid;
-  padding: 10px;
-  font-size: 1.2em;
-  grid-template-rows: auto auto;
-  grid-gap: 2px;
-  justify-content: center;
+  overflow: hidden;
 `
 
-export default function Header({ activeTag, onClick }) {
-  const tags = ['html', 'css', 'js', 'shell']
+export default function Header({ cards, activeTag, setActiveTag }) {
+  const tags = [
+    'all',
+    ...new Set(cards.reduce((prev, curr) => [...prev, ...curr.tags], [])),
+  ]
 
   return (
-    <header>
-      <StyledHeader>{activeTag}</StyledHeader>
-      <Filter items={tags} active={activeTag} onClick={onClick} />
-    </header>
+    <StyledHeader>
+      <Title data-cy="header-title">{activeTag}</Title>
+      <Filter items={tags} active={activeTag} onClick={setActiveTag} />
+    </StyledHeader>
   )
 }

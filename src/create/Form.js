@@ -1,25 +1,38 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledForm = styled.form`
   display: grid;
-  grid-template-rows: 1fr 1fr 3fr 1fr;
-  height: 50vh;
-  grid-gap: 2px;
+  grid-gap: 12px;
+  grid-template-rows: 40px 60px 40px 48px;
 `
-export default function Form({ onInputChange, onSubmit }) {
+
+export default function Form({ data, onSubmit, onInputChange }) {
   return (
     <StyledForm onSubmit={onSubmit}>
-      <input onChange={onInputChange} type="text" name="title" />
+      <input
+        onChange={onInputChange}
+        value={data.title}
+        type="text"
+        placeholder="Title"
+        name="title"
+      />
       <textarea
         onChange={onInputChange}
+        value={data.content}
+        placeholder="Content"
         name="content"
-        id=""
         cols="30"
         rows="10"
       />
-      <input onChange={onInputChange} type="text" name="tags" />
-      <button>create</button>
+      <input
+        onChange={onInputChange}
+        value={data.tags}
+        type="text"
+        placeholder="Tags"
+        name="tags"
+      />
+      <button>Create</button>
     </StyledForm>
   )
 }
